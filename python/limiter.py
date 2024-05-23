@@ -14,7 +14,10 @@ class Limiter(object):
         self.lim_dcc = dcc
 
     def solve(self, dt, value):
-        ddt = 1 / max(self.lim_acc, self.lim_dcc)
+        if (self.lim_vel <= 0) or (self.lim_acc <= 0) or (self.lim_dcc <= 0):
+            return 0
+
+        ddt = 1.0 / max(self.lim_acc, self.lim_dcc)
         steps = int(dt/ddt)
 
         for i in range(max(1, steps)):
